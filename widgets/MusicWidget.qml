@@ -8,17 +8,26 @@ Item {
     id: musicWidget
     property string songText: ""
 
-    function getFirstMprisPlayer() {
-        var firstPlayer = Mpris.players.values[0];
-        return firstPlayer;
+    function getCurrentlyPlayingMprisPlayer() {
+        var players = Mpris.players.values;
+        var activePlayer = players[0];
+
+        for (var i = 0; i < players.length; i++) {
+            if (players[i].isPlaying) {
+                activePlayer = players[i];
+                break;
+            }
+        }
+
+        return activePlayer;
     }
 
     // Function to update song
     function updateSong() {
-        var firstPlayer = getFirstMprisPlayer();
+        var currentlyPlayingPlayer = getCurrentlyPlayingMprisPlayer();
 
-        if (firstPlayer) {
-            songText = firstPlayer.trackArtist + " - " + firstPlayer.trackTitle;
+        if (currentlyPlayingPlayer) {
+            songText = currentlyPlayingPlayer.trackArtist + " - " + currentlyPlayingPlayer.trackTitle;
         } else {
             songText = "";
         }
@@ -45,7 +54,7 @@ Item {
         id: musicText
         text: songText
         font.pixelSize: 12
-        color: panelTextColor
+        color: Constants.panelTextColor
         anchors.centerIn: parent
     }
 
