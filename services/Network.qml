@@ -12,10 +12,11 @@ Singleton {
     id: root
     readonly property string networkState: status?.state || ""
     readonly property bool radioState: status?.radio || false
+    readonly property string connectedSSID: status?.connection || ""
 
     property list<var> wirelessNetworks: []
     property list<var> savedNetworks: []
-    property var status: []
+    property var status: ({})
 
     function controlNm(command) {
         control.exec(command);
