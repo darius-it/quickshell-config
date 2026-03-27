@@ -5,7 +5,7 @@ import qs.utils
 
 Item {
     id: clockWidget
-    property string time
+    property string time: "00:00"
 
     TextMetrics {
         id: metrics
@@ -13,6 +13,7 @@ Item {
     }
 
     implicitWidth: metrics.width
+    implicitHeight: 16
 
     Text {
         id: clockText
@@ -20,6 +21,7 @@ Item {
         font.pixelSize: 14
         color: Constants.textColor
         anchors.centerIn: parent
+        anchors.verticalCenterOffset: 1
     }
 
     Process {
@@ -28,7 +30,7 @@ Item {
         running: true
 
         stdout: StdioCollector {
-            onStreamFinished: clockWidget.time = this.text
+            onStreamFinished: clockWidget.time = this.text.trim()
         }
     }
 
